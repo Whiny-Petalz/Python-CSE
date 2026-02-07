@@ -16,13 +16,24 @@ body{
     overflow:hidden;
 }
 
+/* glow */
+.window{
+    background:url("window.png");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    padding:100px 55px 140px;
+    width:90%;max-width:720px;
+    filter: drop-shadow(0 0 25px rgba(255,80,150,0.5));
+}
+
 .loveText{
-    position:fixed;
-    color:rgba(255,0,100,0.28);
-    font-size:48px;
-    font-weight:bold;
-    pointer-events:none;
-    animation:floatLove 10s linear infinite;
+position:fixed;
+color:rgba(255,0,100,0.28);
+font-size:48px;
+font-weight:bold;
+pointer-events:none;
+animation:floatLove 10s linear infinite;
 }
 
 @keyframes floatLove{
@@ -30,12 +41,35 @@ from{transform:translateY(100vh);}
 to{transform:translateY(-100vh);}
 }
 
+/* floating hearts */
+.floatHeart{
+position:fixed;
+bottom:-10px;
+animation:floatUp 6s linear infinite;
+pointer-events:none;
+}
+
+@keyframes floatUp{
+from{transform:translateY(0);}
+to{transform:translateY(-100vh);opacity:0;}
+}
+
+/* envelope wiggle */
+.envelope:hover{
+animation:wiggle 0.4s infinite alternate;
+}
+
+@keyframes wiggle{
+from{transform:rotate(-2deg);}
+to{transform:rotate(2deg);}
+}
+
 .page{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
 }
 
 .pulse{animation:pulse 1.5s infinite;}
@@ -50,20 +84,20 @@ to{transform:translateY(-100vh);}
 .startText{font-size:32px;margin-top:15px;}
 
 .loader{
-    width:220px;height:16px;border-radius:20px;
-    background:#ffd6ea;overflow:hidden;margin-top:15px;
-    display:none;position:relative;
+width:220px;height:16px;border-radius:20px;
+background:#ffd6ea;overflow:hidden;margin-top:15px;
+display:none;position:relative;
 }
 
 .loaderFill{
-    height:100%;width:0%;
-    background:#ff4da6;
-    transition:width 1.3s linear;
+height:100%;width:0%;
+background:#ff4da6;
+transition:width 1.3s linear;
 }
 
 .loaderHeart{
-    position:absolute;font-size:14px;
-    animation:heartPop 1.2s linear infinite;
+position:absolute;font-size:14px;
+animation:heartPop 1.2s linear infinite;
 }
 
 @keyframes heartPop{
@@ -71,22 +105,15 @@ from{transform:translateY(10px);opacity:0;}
 to{transform:translateY(-25px);opacity:1;}
 }
 
-.window{
-    background:url("window.png");
-    background-size:contain;
-    background-repeat:no-repeat;
-    background-position:center;
-    padding:100px 55px 140px;
-    width:90%;max-width:720px;
-}
-
 .window h1{font-size:26px;margin-bottom:20px;}
 
-.cat{width:180px;margin:6px auto;}
+.cat{width:180px;margin:6px auto;cursor:pointer;}
 
 .buttonRow{
-display:flex;flex-direction:column;
-align-items:center;gap:10px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:10px;
 }
 
 .yesWrap{display:flex;flex-direction:column;align-items:center;}
@@ -94,18 +121,22 @@ align-items:center;gap:10px;
 #yesBtn,#noBtn{width:135px;cursor:pointer;}
 
 #result{
-color:#7a003c;font-weight:700;
-min-height:24px;font-size:20px;
+color:#7a003c;
+font-weight:700;
+min-height:24px;
+font-size:20px;
 }
 
-.heart{
-position:fixed;bottom:-10px;
-animation:floatUp 6s linear infinite;
-}
-
-@keyframes floatUp{
-from{transform:translateY(0);}
-to{transform:translateY(-100vh);opacity:0;}
+/* hidden signature */
+.signature{
+position:fixed;
+bottom:10px;
+right:15px;
+font-size:14px;
+color:rgba(255,100,150,0.7);
+opacity:0;
+transition:0.5s;
+pointer-events:none;
 }
 </style>
 </head>
@@ -133,7 +164,7 @@ to{transform:translateY(-100vh);opacity:0;}
 <div class="window">
 <h1>Will you be my Valentine? 💖</h1>
 
-<img src="cat_dance.gif" class="cat">
+<img src="cat_dance.gif" class="cat" id="cat1">
 
 <div class="buttonRow">
 <div class="yesWrap" id="yesWrap">
@@ -150,24 +181,33 @@ to{transform:translateY(-100vh);opacity:0;}
 <div class="window">
 
 <h1>YAYYAYYYAYYYY💞✨</h1>
-<img src="cat_heart.gif" class="cat">
+<img src="cat_heart.gif" class="cat" id="cat2">
 
-<p style="max-width:440px;margin:auto;line-height:1.6;color:#5a2b3b;font-size:18px;font-weight:600;">
-Okieee sooo now that you've clicked YES 🥰💗 
-I know it's already a little late... and Valentine’s week is starting and all... But since,
-this is our first one together, I wanted to ask you properly anyway lol 😭
-Being with you honestly makes everything softer, funnier, and warmer every day.
-Thank you for being so patient with me, making me laugh, and just being you with me.
-I really love the little moments we share, and I can’t wait to make many more memories together <3
-So… will you be my Valentine this year? 💖✨ 
-(You're not getting rid of me now btw 🤷‍♀️😌)
+<p id="finalMsg"
+style="max-width:440px;margin:auto;line-height:1.6;color:#5a2b3b;font-size:18px;font-weight:600;">
 </p>
 
 </div>
 </div>
 
+<div class="signature" id="sig">
+made with love by Vedika 💖
+</div>
+
 <script>
-window.onload = function(){
+window.onload=function(){
+
+/* floating hearts */
+setInterval(()=>{
+let h=document.createElement("div");
+let icons=["💖","💗","💞","✨"];
+h.className="floatHeart";
+h.innerHTML=icons[Math.floor(Math.random()*icons.length)];
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=(Math.random()*18+16)+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},500);
 
 window.openWindow=function(){
 let click=document.getElementById("clickSound");
@@ -205,7 +245,7 @@ let noBtn=document.getElementById("noBtn");
 let result=document.getElementById("result");
 let yesWrap=document.getElementById("yesWrap");
 
-let scale=1, step=0;
+let scale=1,step=0;
 
 let yesTexts=[
 "Are you sureee? 😌",
@@ -215,7 +255,31 @@ let yesTexts=[
 "Okaaaay 😌"
 ];
 
-yesBtn.onclick=function(){
+function sparkleBurst(x,y){
+for(let i=0;i<6;i++){
+let s=document.createElement("div");
+s.innerHTML="✨";
+s.style.position="fixed";
+s.style.left=x+"px";
+s.style.top=y+"px";
+document.body.appendChild(s);
+
+let dx=(Math.random()-0.5)*120;
+let dy=(Math.random()-0.5)*120;
+
+s.animate([
+{transform:"translate(0,0)",opacity:1},
+{transform:`translate(${dx}px,${dy}px)`,opacity:0}
+],{duration:600});
+
+setTimeout(()=>s.remove(),600);
+}
+}
+
+yesBtn.onclick=function(e){
+
+sparkleBurst(e.clientX,e.clientY);
+
 if(step<yesTexts.length){
 result.innerHTML=yesTexts[step];
 scale+=0.25;
@@ -224,11 +288,52 @@ step++;
 }else{
 document.getElementById("page1").style.display="none";
 document.getElementById("page2").style.display="flex";
+
+let msg=`Okieee sooo now that you've clicked YES 🥰💗 
+I know it's already a little late... and Valentine’s week is starting and all... But since,
+this is our first one together, I wanted to ask you properly anyway lol 😭
+Being with you honestly makes everything softer, funnier, and warmer every day.
+Thank you for being so patient with me, making me laugh, and just being you with me.
+I really love the little moments we share, and I can’t wait to make many more memories together <3
+So… will you be my Valentine this year? 💖✨ 
+(You're not getting rid of me now btw 🤷‍♀️😌)
+`;
+
+let i=0;
+let target=document.getElementById("finalMsg");
+target.innerHTML="";
+
+let typing=setInterval(()=>{
+target.innerHTML+=msg[i];
+i++;
+if(i>=msg.length) clearInterval(typing);
+},25);
+
+setTimeout(()=>{
+setInterval(()=>{
+let t=document.createElement("div");
+t.className="loveText";
+t.innerHTML="I love you 💖";
+t.style.left=Math.random()*90+"vw";
+document.body.appendChild(t);
+setTimeout(()=>t.remove(),10000);
+},1200);
+},2000);
 }
 };
 
-let noTexts=[
-"Wrong option 😤",
+/* hidden signature trigger */
+let clicks=0;
+document.querySelectorAll(".cat").forEach(cat=>{
+cat.onclick=()=>{
+clicks++;
+if(clicks>=5){
+document.getElementById("sig").style.opacity=1;
+}
+};
+});
+
+let noTexts=["Wrong option 😤",
 "You can't escape 😂",
 "You better click that YES rn dawg 😦",
 "Nice try 😒",
