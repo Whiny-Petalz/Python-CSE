@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,7 +116,6 @@ transition:width 1.3s linear;
 }
 
 .window h1{font-size:26px;margin-bottom:20px;}
-
 .cat{width:180px;margin:6px auto;}
 
 .buttonRow{
@@ -281,7 +279,12 @@ target.innerHTML+=msg[i];
 i++;
 if(i>=msg.length){
 clearInterval(typing);
+
+/* delay close button */
+setTimeout(()=>{
 document.getElementById("closeBtn").style.display="inline-block";
+},8000);
+
 }
 },30);
 }
@@ -303,7 +306,6 @@ let noIndex = 0;
 noBtn.onmouseover=function(){
     noBtn.style.position="absolute";
 
-    /* keep inside screen */
     let maxX = window.innerWidth - 150;
     let maxY = window.innerHeight - 150;
 
@@ -313,24 +315,13 @@ noBtn.onmouseover=function(){
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 
-    /* toggle texts one by one */
     result.innerHTML = noTexts[noIndex];
     noIndex = (noIndex + 1) % noTexts.length;
 };
 
+/* music keeps playing now */
 window.endLetter=function(){
 
-let music=document.getElementById("bgMusic");
-let fade=setInterval(()=>{
-if(music.volume>0.05){
-music.volume-=0.05;
-}else{
-music.pause();
-clearInterval(fade);
-}
-},120);
-
-/* spam I love you */
 setInterval(()=>{
 let t=document.createElement("div");
 t.className="loveText";
@@ -340,13 +331,13 @@ document.body.appendChild(t);
 },600);
 
 document.body.innerHTML=`
-<div style="margin-top:35vh;color:white;font-size:30px;">
+<div style="margin-top:35vh;color:#ff4da6;font-size:40px;font-weight:700;">
 💖💖<br>
 That's it for rn,<br>
 see ya again next year,<br>
 same time around hihihihihih :3<br>
 💖💖<br><br>
-<img src="envelope.png" style="width:180px;">
+<img src="envelope.png" style="width:200px;">
 </div>`;
 };
 
@@ -355,5 +346,3 @@ same time around hihihihihih :3<br>
 
 </body>
 </html>
-
-
